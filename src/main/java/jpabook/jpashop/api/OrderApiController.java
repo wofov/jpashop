@@ -1,6 +1,8 @@
 package jpabook.jpashop.api;
 
 import jpabook.jpashop.domain.*;
+import jpabook.jpashop.repository.OrderQueryDto;
+import jpabook.jpashop.repository.OrderQueryRepository;
 import jpabook.jpashop.repository.OrderRepository;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -99,6 +101,12 @@ public class OrderApiController {
                 .map(o -> new OrderDto(o))
                 .collect(Collectors.toList());
         return result;
+    }
+    private final OrderQueryRepository orderQueryRepository;
+
+    @GetMapping("/api/v4/orders")
+    public List<OrderQueryDto> ordersV4() {
+        return orderQueryRepository.findOrderQueryDtos();
     }
 
 
