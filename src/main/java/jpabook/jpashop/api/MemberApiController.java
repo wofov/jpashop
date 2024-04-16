@@ -18,6 +18,7 @@ public class MemberApiController {
 
 
     private final MemberService memberService;
+
     /**
      * 등록 V1: 요청 값으로 Member 엔티티를 직접 받는다.
      * 문제점
@@ -28,6 +29,7 @@ public class MemberApiController {
      * - 엔티티가 변경되면 API 스펙이 변한다.
      * 결론
      * - API 요청 스펙에 맞추어 별도의 DTO를 파라미터로 받는다. */
+
     @PostMapping("/api/v1/members")
     public CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member) {
         Long id = memberService.join(member);
@@ -47,6 +49,7 @@ public class MemberApiController {
         @NotEmpty
         private String name;
     }
+
     @Data
     static class CreateMemberResponse {
         private Long id;
@@ -62,10 +65,12 @@ public class MemberApiController {
         Member findMember = memberService.findOne(id);
         return new UpdateMemberResponse(findMember.getId(), findMember.getName());
     }
+
     @Data
     static class UpdateMemberRequest {
         private String name;
     }
+
     @Data
     @AllArgsConstructor
     static class UpdateMemberResponse {
@@ -87,7 +92,8 @@ public class MemberApiController {
      * 결론
      * - API 응답 스펙에 맞추어 별도의 DTO를 반환한다.
      */
-//조회 V1: 안 좋은 버전, 모든 엔티티가 노출, @JsonIgnore -> 이건 정말 최악, api가 이거 하나 인가! 화면에 종속적이지 마라!
+
+    // 조회 V1: 안 좋은 버전, 모든 엔티티가 노출, @JsonIgnore -> 이건 정말 최악, api가 이거 하나 인가! 화면에 종속적이지 마라!
     @GetMapping("/api/v1/members")
     public List<Member> membersV1() {
         return memberService.findMembers();
